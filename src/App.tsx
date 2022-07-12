@@ -1,11 +1,13 @@
-import MainNavigation from 'navigation/MainNavigator';
+import { CssBaseline } from '@mui/material'
+import MainNavigation from 'navigation/MainNavigator'
 
 function App() {
   return (
     <div>
+      <CssBaseline />
       <MainNavigation />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

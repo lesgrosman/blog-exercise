@@ -1,11 +1,11 @@
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom'
 
 const ArticleDetail = () => {
-  const { articleId } = useParams();
+  const { articleId } = useParams()
 
   return (
-    <div>Article Detail { articleId }</div>
-  );
-};
+    <div>Article Detail {articleId}</div>
+  )
+}
 
-export default ArticleDetail;
+export default ArticleDetail

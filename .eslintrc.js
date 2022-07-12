@@ -92,10 +92,10 @@ module.exports = {
       {
         allowMultiline: true,
         children: {
-          when: "always",
+          when: "never",
         },
         spacing: {
-          objectLiterals: "always",
+          objectLiterals: "never",
         },
         when: "never",
       },
@@ -116,22 +116,13 @@ module.exports = {
     ],
     "react/jsx-indent-props": ["error", 2],
     "react/prop-types": "warn",
-    semi: "warn",
+    semi: ["warn", "never"],
     "sort-imports": [
       "warn",
       {
         ignoreCase: false,
         ignoreDeclarationSort: true,
         ignoreMemberSort: false,
-      },
-    ],
-    "sort-keys": [
-      "warn",
-      "asc",
-      {
-        caseSensitive: true,
-        minKeys: 2,
-        natural: false,
       },
     ],
   },

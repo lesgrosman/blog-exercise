@@ -1,33 +1,62 @@
-import React from 'react';
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
+import { AppBar, Box, Button, Container, Toolbar, Typography } from '@mui/material'
+import { makeStyles } from '@mui/styles'
+import React from 'react'
 
 interface Props {
   children?: React.ReactNode
 }
 
-const Navigation = ({ children }: Props) => (
-  <>
-    <Navbar bg="light" expand="lg">
-      <Container>
-        <Navbar.Brand href="/">Cats</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link href="/">Articles</Nav.Link>
-            <Nav.Link href="/about">About</Nav.Link>
-          </Nav>
-          <Nav>
-            <Nav.Link href="/login">Log in</Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
-    <Container>
-      { children }
-    </Container>
-  </>
-);
+export const useStyles = makeStyles(() => ({
+  mainContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh',
+    '& .MuiToolbar-root': {
+      padding: 0
+    }
+  },
+  header: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    '& .MuiBox-root': {
+      gap: 40
+    }
+  },
+  link: {
+    textDecoration: 'none',
+    color: 'white'
+  },
+  content: {
+    paddingTop: 48
+  }
+}))
 
-export default Navigation;
+
+const Navigation = ({ children }: Props) => {
+  const classes = useStyles()
+  return (
+    <Box className={classes.mainContainer}>
+      <AppBar position="static">
+        <Container>
+          <Toolbar className={classes.header}>
+            <Box display="flex">
+              <Typography component="a" href="/" className={classes.link}>
+                Articles
+              </Typography>
+              <Typography component="a" href="/about" className={classes.link}>
+                About
+              </Typography>
+            </Box>
+            <Button color="inherit" component="a" href="/login">Login</Button>
+          </Toolbar>
+        </Container>
+      </AppBar>
+      <Container className={classes.content}>
+        {children}
+      </Container>
+    </Box>
+  )
+}
+
+export default Navigation
