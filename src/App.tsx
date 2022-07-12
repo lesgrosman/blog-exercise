@@ -1,7 +1,9 @@
+import MainNavigation from 'navigation/MainNavigator';
+
 function App() {
   return (
     <div>
-      App
+      <MainNavigation />
     </div>
   );
 }

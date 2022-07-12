@@ -107,7 +107,7 @@ module.exports = {
       },
     ],
     "react/jsx-indent": [
-      "error",
+      "warn",
       2,
       {
         checkAttributes: true,
