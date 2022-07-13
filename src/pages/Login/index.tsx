@@ -1,15 +1,16 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
+import FormHelperText from '@mui/material/FormHelperText'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import { makeStyles } from '@mui/styles'
-import { useAuthContext } from 'context/auth'
 import { useEffect } from 'react'
 import { FieldValues, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { useLogin } from 'utils/hooks/useLogin'
+import { useUser } from 'utils/hooks/useUser'
 import * as z from 'zod'
 
 export const useStyles = makeStyles(() => ({
@@ -37,17 +38,18 @@ const schema = z.object({
 
 const Login = () => {
   const classes = useStyles()
-  const [ login ] = useLogin()
+  const [ login, { loading, error } ] = useLogin()
   const navigate = useNavigate()
 
-  const { accessToken } = useAuthContext()
+  const user = useUser()
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting, isValid }
   } = useForm({
-    resolver: zodResolver(schema)
+    resolver: zodResolver(schema),
+    mode: 'onChange'
   })
 
   const handleFormSubmit = (data: FieldValues) => {
@@ -57,10 +59,10 @@ const Login = () => {
   }
 
   useEffect(() => {
-    if (accessToken) {
+    if (user) {
       navigate('/')
     }
-  }, [accessToken, navigate])
+  }, [user, navigate])
 
   return (
     <Grid container className={classes.root}>
@@ -83,10 +85,11 @@ const Login = () => {
             <Button
               variant="contained"
               type="submit"
-              disabled={isSubmitting}
+              disabled={isSubmitting || loading}
             >
               Log in
             </Button>
+            <FormHelperText id="my-helper-text" error>{error?.message}</FormHelperText>
           </form>
         </Box>
       </Grid>

@@ -42,9 +42,11 @@ export const useLogin = (): UseLogin => {
         if (!token) throw new Error('No access token')
 
         setAccessToken(token)
+        localStorage.setItem('accessToken', token)
 
       } catch (err) {
         setAccessToken(null)
+        localStorage.setItem('accessToken', '')
         setLoading(false)
         setError(err as Error)
       }

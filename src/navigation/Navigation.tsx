@@ -1,6 +1,17 @@
-import { AppBar, Box, Button, Container, Toolbar, Typography } from '@mui/material'
+import AccountCircle from '@mui/icons-material/AccountCircle'
+import AppBar from '@mui/material/AppBar'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Container from '@mui/material/Container'
+import IconButton from '@mui/material/IconButton'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
+import Toolbar from '@mui/material/Toolbar'
+import Typography from '@mui/material/Typography'
 import { makeStyles } from '@mui/styles'
+import { useAuthContext } from 'context/auth'
 import React from 'react'
+import { useUser } from 'utils/hooks/useUser'
 
 interface Props {
   children?: React.ReactNode
@@ -29,12 +40,31 @@ export const useStyles = makeStyles(() => ({
   },
   content: {
     paddingTop: 48
+  },
+  profileContainer: {
+    alignItems: 'center'
   }
 }))
 
 
 const Navigation = ({ children }: Props) => {
+  const user = useUser()
+  const { setAccessToken } = useAuthContext()
   const classes = useStyles()
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+
+  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleLogout = () => {
+    setAnchorEl(null)
+    setAccessToken(null)
+    localStorage.setItem('accessToken', '')
+
+  }
+
   return (
     <Box className={classes.mainContainer}>
       <AppBar position="static">
@@ -48,7 +78,48 @@ const Navigation = ({ children }: Props) => {
                 About
               </Typography>
             </Box>
-            <Button color="inherit" component="a" href="/login">Login</Button>
+
+            {user ? (
+              <Box display="flex" className={classes.profileContainer}>
+                <Typography component="a" href="/" className={classes.link}>
+                  My Articles
+                </Typography>
+                <Typography component="a" href="/about" className={classes.link}>
+                  Create Article
+                </Typography>
+                <div>
+                  <IconButton
+                    size="large"
+                    aria-label="account of current user"
+                    aria-controls="menu-appbar"
+                    aria-haspopup="true"
+                    onClick={handleMenu}
+                    color="inherit"
+                  >
+                    <AccountCircle />
+                  </IconButton>
+                  <Menu
+                    id="menu-appbar"
+                    anchorEl={anchorEl}
+                    anchorOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'right'
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right'
+                    }}
+                    open={Boolean(anchorEl)}
+                    onClose={() => setAnchorEl(null)}
+                  >
+                    <MenuItem onClick={handleLogout}>Log out</MenuItem>
+                  </Menu>
+                </div>
+              </Box>
+            ) : (
+              <Button color="inherit" component="a" href="/login">Login</Button>
+            )}
           </Toolbar>
         </Container>
       </AppBar>
