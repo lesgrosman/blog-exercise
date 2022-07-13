@@ -17,7 +17,7 @@ export const useLogin = (): UseLogin => {
   const [error, setError] = useState<Error | null>(null)
 
   //auth store
-  const { setAccessToken } = useAuthContext()
+  const { setIsUser } = useAuthContext()
 
   const login = useCallback(
     async (email: string, password: string) => {
@@ -40,18 +40,16 @@ export const useLogin = (): UseLogin => {
         const token = responseLogin?.data?.access_token
 
         if (!token) throw new Error('No access token')
-
-        setAccessToken(token)
+        setIsUser(!!token)
         localStorage.setItem('accessToken', token)
-
       } catch (err) {
-        setAccessToken(null)
+        setIsUser(false)
         localStorage.setItem('accessToken', '')
         setLoading(false)
         setError(err as Error)
       }
     },
-    [error, setAccessToken]
+    [error, setIsUser]
   )
 
   return [ login, { loading, error } ]

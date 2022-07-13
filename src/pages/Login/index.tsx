@@ -6,11 +6,10 @@ import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import { makeStyles } from '@mui/styles'
-import { useEffect } from 'react'
+import { useAuthContext } from 'context/auth'
 import { FieldValues, useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import { useLogin } from 'utils/hooks/useLogin'
-import { useUser } from 'utils/hooks/useUser'
 import * as z from 'zod'
 
 export const useStyles = makeStyles(() => ({
@@ -39,9 +38,8 @@ const schema = z.object({
 const Login = () => {
   const classes = useStyles()
   const [ login, { loading, error } ] = useLogin()
-  const navigate = useNavigate()
 
-  const user = useUser()
+  const { isUser } = useAuthContext()
 
   const {
     register,
@@ -58,11 +56,9 @@ const Login = () => {
     }
   }
 
-  useEffect(() => {
-    if (user) {
-      navigate('/')
-    }
-  }, [user, navigate])
+  if (isUser) {
+    return <Navigate to="/" replace />
+  }
 
   return (
     <Grid container className={classes.root}>

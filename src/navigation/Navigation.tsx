@@ -11,7 +11,6 @@ import Typography from '@mui/material/Typography'
 import { makeStyles } from '@mui/styles'
 import { useAuthContext } from 'context/auth'
 import React from 'react'
-import { useUser } from 'utils/hooks/useUser'
 
 interface Props {
   children?: React.ReactNode
@@ -48,8 +47,7 @@ export const useStyles = makeStyles(() => ({
 
 
 const Navigation = ({ children }: Props) => {
-  const user = useUser()
-  const { setAccessToken } = useAuthContext()
+  const { isUser, setIsUser } = useAuthContext()
   const classes = useStyles()
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
@@ -60,9 +58,8 @@ const Navigation = ({ children }: Props) => {
 
   const handleLogout = () => {
     setAnchorEl(null)
-    setAccessToken(null)
+    setIsUser(false)
     localStorage.setItem('accessToken', '')
-
   }
 
   return (
@@ -79,12 +76,12 @@ const Navigation = ({ children }: Props) => {
               </Typography>
             </Box>
 
-            {user ? (
+            {isUser ? (
               <Box display="flex" className={classes.profileContainer}>
-                <Typography component="a" href="/" className={classes.link}>
+                <Typography component="a" href="/my-articles" className={classes.link}>
                   My Articles
                 </Typography>
-                <Typography component="a" href="/about" className={classes.link}>
+                <Typography component="a" href="/create-article" className={classes.link}>
                   Create Article
                 </Typography>
                 <div>

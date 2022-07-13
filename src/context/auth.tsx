@@ -1,25 +1,30 @@
-import { ReactNode, createContext, useContext, useState } from 'react';
+import { ReactNode, createContext, useContext, useEffect, useState } from 'react'
 
 type AuthContextType = {
-  accessToken: string | null
-  setAccessToken: (state: string | null) => void
+  isUser: boolean
+  setIsUser: (state: boolean) => void
 }
 
-const AuthContext = createContext({} as AuthContextType);
+const AuthContext = createContext({} as AuthContextType)
 
 export const AuthProvider = ({ children }: {children: ReactNode}) => {
-  const [accessToken, setAccessToken] = useState<string | null>(null);
+  const token = localStorage.getItem('accessToken')
+  const [isUser, setIsUser] = useState<boolean>(!!token)
+
+  useEffect(() => {
+    setIsUser(!!token)
+  }, [token])
 
   return (
     <AuthContext.Provider
       value={{
-        accessToken,
-        setAccessToken
+        isUser,
+        setIsUser
       }}
     >
       {children}
     </AuthContext.Provider>
-  );
-};
+  )
+}
 
-export const useAuthContext = () =>useContext(AuthContext);
+export const useAuthContext = () => useContext(AuthContext)
