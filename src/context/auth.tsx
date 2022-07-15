@@ -1,6 +1,7 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from 'react'
 
 type AuthContextType = {
+  accessToken: string | null
   isUser: boolean
   setIsUser: (state: boolean) => void
 }
@@ -18,6 +19,7 @@ export const AuthProvider = ({ children }: {children: ReactNode}) => {
   return (
     <AuthContext.Provider
       value={{
+        accessToken: token,
         isUser,
         setIsUser
       }}
