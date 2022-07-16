@@ -1,8 +1,10 @@
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
+import { useAuthContext } from 'context/auth'
 import { UseQueryResult, useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
 import { fetchArticleDetail } from 'services/queries'
+import { sortByVotes } from 'utils/sort'
 import { ArticleDetailType } from 'utils/types'
 import Comment from './Comment'
 import CommentForm from './CommentForm'
@@ -10,6 +12,7 @@ import SkeletonItem from './SkeletonItem'
 
 const Comments = () => {
   const { articleId } = useParams()
+  const { isUser } = useAuthContext()
 
   const id = articleId || ''
 
@@ -33,10 +36,12 @@ const Comments = () => {
         Comments {`(${data.comments.length})`}
       </Typography>
 
-      <CommentForm />
+      {isUser && (
+        <CommentForm articleId={id} />
+      )}
 
       <Box display="flex" flexDirection="column" gap={3}>
-        {data.comments.map(comment => (
+        {sortByVotes(data.comments).map(comment => (
           <Comment key={comment.commentId} comment={comment} />
         ))}
       </Box>

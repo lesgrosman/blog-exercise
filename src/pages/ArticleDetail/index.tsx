@@ -1,9 +1,9 @@
+import Divider from '@mui/material/Divider'
 import Grid from '@mui/material/Grid'
 import Hidden from '@mui/material/Hidden'
-import Divider from '@mui/material/Divider'
+import Comments from './Comments'
 import Detail from './Detail'
 import RelatedArticles from './RelatedArticles'
-import Comments from './Comments'
 
 const ArticleDetail = () => {
   return (

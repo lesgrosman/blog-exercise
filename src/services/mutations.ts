@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { API_KEY, BASE_URL } from 'utils/constants'
+import { AddCommentMutation } from './types'
 
 export const deleteArticle = (id: string, accessToken: string | null) => {
   return axios.delete(`${BASE_URL}/articles/${id}`,
@@ -11,3 +12,34 @@ export const deleteArticle = (id: string, accessToken: string | null) => {
     }
   )
 }
+
+export const addComment = (data: AddCommentMutation, accessToken: string | null) => {
+  return axios.post(`${BASE_URL}/comments`, data, {
+    headers: {
+      'X-API-KEY': API_KEY,
+      'Authorization': accessToken as string
+    }
+  })
+}
+
+export const voteUpComment = (commentId: string, accessToken: string | null) => {
+  return axios.post(`${BASE_URL}/comments/${commentId}/vote/up`,
+    {
+      headers: {
+        'X-API-KEY': API_KEY,
+        'Authorization': accessToken as string
+      }
+    }
+  )
+}
+
+export const voteDownComment = (commentId: string, accessToken: string | null) => {
+  return axios.post(`${BASE_URL}/comments/${commentId}/vote/down`,
+    {
+      headers: {
+        'X-API-KEY': API_KEY,
+        'Authorization': accessToken as string
+      }
+    }
+  )
+} 
