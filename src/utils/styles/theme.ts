@@ -4,7 +4,20 @@ export const SECONDARY_MAIN = '#D47E5F'
 
 const themeOptions: ThemeOptions = {
   palette: {
-    mode: 'light'
+    mode: 'light',
+    primary: {
+      main: PRIMARY_MAIN
+    },
+    secondary: {
+      main: SECONDARY_MAIN
+    }
+  },
+  components: {
+    MuiButtonBase: {
+      defaultProps: {
+        disableRipple: true
+      }
+    }
   }
 }
 
