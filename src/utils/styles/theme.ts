@@ -15,7 +15,7 @@ const themeOptions: ThemeOptions = {
   components: {
     MuiButtonBase: {
       defaultProps: {
-        disableRipple: true
+        disableRipple: false
       }
     }
   }

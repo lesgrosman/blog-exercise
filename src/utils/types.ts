@@ -23,7 +23,7 @@ export type CommentType = {
   articledId: string
   author:  string
   content: string
-  postedAt: string
+  createdAt: string
   score: number
 }
 
