@@ -3,7 +3,7 @@ import Box from '@mui/material/Box'
 import { makeStyles } from '@mui/styles'
 import { UseQueryResult } from 'react-query'
 import { Link, useParams } from 'react-router-dom'
-import { ArticlesQueryDataType } from 'utils/types'
+import { ArticlesQueryDataType } from 'services/types'
 import SkeletonItem from './SkeletonItem'
 
 export const useStyles = makeStyles(() => ({

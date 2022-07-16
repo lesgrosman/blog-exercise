@@ -1,6 +1,6 @@
 import { TableBody as MuiTableBody } from '@mui/material'
 import { UseQueryResult } from 'react-query'
-import { ArticleItemType, ArticlesQueryDataType } from 'utils/types'
+import { ArticleItemType, ArticlesQueryDataType } from 'services/types'
 import SkeletonRow from './SkeletonRow'
 import TableRow from './TableRow'
 

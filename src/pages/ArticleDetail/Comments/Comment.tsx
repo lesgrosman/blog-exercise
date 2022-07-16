@@ -13,7 +13,7 @@ import moment from 'moment'
 import { Store } from 'react-notifications-component'
 import { useMutation, useQueryClient } from 'react-query'
 import { voteDownComment, voteUpComment } from 'services/mutations'
-import { CommentType } from 'utils/types'
+import { CommentType } from 'services/types'
 
 export const useStyles = makeStyles((theme: Theme) => ({
   date: {

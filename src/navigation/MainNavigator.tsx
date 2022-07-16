@@ -1,6 +1,6 @@
 import About from 'pages/About'
 import ArticleDetail from 'pages/ArticleDetail'
-import CreateArticle from 'pages/CreateArticle/CreateArticle'
+import CreateArticle from 'pages/CreateArticle'
 import Home from 'pages/Home'
 import Login from 'pages/Login'
 import MyArticles from 'pages/MyArticles'

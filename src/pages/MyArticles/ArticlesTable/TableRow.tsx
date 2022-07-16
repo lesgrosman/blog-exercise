@@ -10,8 +10,8 @@ import { useAuthContext } from 'context/auth'
 import { Store } from 'react-notifications-component'
 import { useMutation, useQueryClient } from 'react-query'
 import { deleteArticle } from 'services/mutations'
+import { ArticleItemType } from 'services/types'
 import LocalizedDate from 'utils/components/LocalizedDate'
-import { ArticleItemType } from 'utils/types'
 import { COLS } from './constants'
 
 export const useStyles = makeStyles(() => ({

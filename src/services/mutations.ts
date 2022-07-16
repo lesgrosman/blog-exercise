@@ -1,6 +1,18 @@
 import axios from 'axios'
 import { API_KEY, BASE_URL } from 'utils/constants'
-import { AddCommentMutation } from './types'
+import { AddCommentMutation, CreateArticleMutation } from './types'
+
+export const createArticle = (
+  data: CreateArticleMutation,
+  accessToken: string | null
+) => {
+  return axios.post(`${BASE_URL}/articles`, data, {
+    headers: {
+      'X-API-KEY': API_KEY,
+      'Authorization': accessToken as string
+    }
+  })
+}
 
 export const deleteArticle = (id: string, accessToken: string | null) => {
   return axios.delete(`${BASE_URL}/articles/${id}`,
