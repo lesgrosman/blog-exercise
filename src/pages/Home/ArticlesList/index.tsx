@@ -30,9 +30,6 @@ const ArticlesList = ({
 
   if (isError || !data) return <>Error :/</>
 
-
-
-
   return (
     <Box display="flex" flexDirection="column" gap={8}>
       {sortByDate(data.items).map(item => (

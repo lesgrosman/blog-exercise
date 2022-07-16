@@ -10,3 +10,13 @@ export const fetchArticles = async () => {
 
   return data
 }
+
+export const fetchArticleDetail = async (id: string) => {
+  const { data } = await axios.get(`${BASE_URL}/articles/${id}`, {
+    headers: {
+      'X-API-KEY': API_KEY
+    }
+  })
+
+  return data
+}

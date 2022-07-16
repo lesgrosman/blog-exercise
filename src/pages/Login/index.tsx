@@ -9,6 +9,7 @@ import { makeStyles } from '@mui/styles'
 import { useAuthContext } from 'context/auth'
 import { FieldValues, useForm } from 'react-hook-form'
 import { Navigate } from 'react-router-dom'
+import { ROUTES } from 'utils/constants'
 import { useLogin } from 'utils/hooks/useLogin'
 import * as z from 'zod'
 
@@ -57,7 +58,7 @@ const Login = () => {
   }
 
   if (isUser) {
-    return <Navigate to="/" replace />
+    return <Navigate to={ROUTES.HOME} replace />
   }
 
   return (

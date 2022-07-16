@@ -1,6 +1,7 @@
 import { Box, Button, Typography } from '@mui/material'
 import { UseQueryResult, useQuery } from 'react-query'
 import { fetchArticles } from 'services/queries'
+import { ROUTES } from 'utils/constants'
 import { ArticlesQueryDataType } from 'utils/types'
 import ArticlesTable from './ArticlesTable'
 
@@ -19,7 +20,7 @@ const MyArticles = () => {
           component="a"
           variant="contained"
           size="small"
-          href="/create-article"
+          href={ROUTES.CREATE_ARTICLE}
         >
           Create Article
         </Button>

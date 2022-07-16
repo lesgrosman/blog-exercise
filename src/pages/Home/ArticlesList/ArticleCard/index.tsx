@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography'
 import { makeStyles } from '@mui/styles'
 import Image from 'components/Image'
 import LocalizedDate from 'utils/components/LocalizedDate'
+import { ROUTES } from 'utils/constants'
 import { ArticleItemType } from 'utils/types'
 import CardLayout from './CardLayout'
 
@@ -65,7 +66,7 @@ const ArticleCard = ({ article }: Props) => {
       color="primary"
       size="small"
       component="a"
-      href={`/articles/${article.articleId}`}
+      href={`${ROUTES.ARTICLES}/${article.articleId}`}
       className={classes.button}
     >
       Detail
