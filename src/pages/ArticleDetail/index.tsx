@@ -1,10 +1,21 @@
-import { useParams } from 'react-router-dom'
+import Grid from '@mui/material/Grid'
+import Hidden from '@mui/material/Hidden'
+import Detail from './Detail'
+import RelatedArticles from './RelatedArticles'
 
 const ArticleDetail = () => {
-  const { articleId } = useParams()
-
   return (
-    <div>Article Detail {articleId}</div>
+    <Grid container spacing={5}>
+      <Grid item xs={12} md={8}>
+        <Detail />
+      </Grid>
+
+      <Hidden mdDown>
+        <Grid item xs={4}>
+          <RelatedArticles />
+        </Grid>
+      </Hidden>
+    </Grid>
   )
 }
 

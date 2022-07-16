@@ -12,6 +12,7 @@ import Typography from '@mui/material/Typography'
 import { makeStyles } from '@mui/styles'
 import { useAuthContext } from 'context/auth'
 import React from 'react'
+import { ROUTES } from 'utils/constants'
 
 interface Props {
   children?: React.ReactNode
@@ -70,22 +71,32 @@ const Navigation = ({ children }: Props) => {
         <Container>
           <Toolbar className={classes.header}>
             <Box display="flex">
-              <Typography component="a" href="/" className={classes.link}>
+              <Typography component="a" href={ROUTES.HOME} className={classes.link}>
                 Articles
               </Typography>
-              <Typography component="a" href="/about" className={classes.link}>
+              <Typography component="a" href={ROUTES.ABOUT} className={classes.link}>
                 About
               </Typography>
             </Box>
 
             {isUser ? (
               <Box display="flex" className={classes.profileContainer}>
-                <Typography component="a" href="/my-articles" className={classes.link}>
+                <Typography
+                  component="a"
+                  href={ROUTES.MY_ARTICLES}
+                  className={classes.link}
+                >
                   My Articles
                 </Typography>
-                <Typography component="a" href="/create-article" className={classes.link}>
+
+                <Typography
+                  component="a"
+                  href={ROUTES.CREATE_ARTICLE}
+                  className={classes.link}
+                >
                   Create Article
                 </Typography>
+
                 <div>
                   <IconButton
                     size="large"
@@ -117,7 +128,7 @@ const Navigation = ({ children }: Props) => {
                 </div>
               </Box>
             ) : (
-              <Button color="inherit" component="a" href="/login">Login</Button>
+              <Button color="inherit" component="a" href={ROUTES.LOGIN}>Login</Button>
             )}
           </Toolbar>
         </Container>
