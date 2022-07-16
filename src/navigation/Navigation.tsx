@@ -1,4 +1,5 @@
 import AccountCircle from '@mui/icons-material/AccountCircle'
+import { Theme } from '@mui/material'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -16,14 +17,15 @@ interface Props {
   children?: React.ReactNode
 }
 
-export const useStyles = makeStyles(() => ({
+export const useStyles = makeStyles((theme: Theme) => ({
   mainContainer: {
     display: 'flex',
     flexDirection: 'column',
     minHeight: '100vh',
     '& .MuiToolbar-root': {
       padding: 0
-    }
+    },
+    marginBottom: theme.spacing(10)
   },
   header: {
     display: 'flex',
@@ -64,7 +66,7 @@ const Navigation = ({ children }: Props) => {
 
   return (
     <Box className={classes.mainContainer}>
-      <AppBar position="static">
+      <AppBar position="sticky">
         <Container>
           <Toolbar className={classes.header}>
             <Box display="flex">

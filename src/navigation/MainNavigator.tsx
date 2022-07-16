@@ -1,7 +1,7 @@
 import About from 'pages/About'
 import ArticleDetail from 'pages/ArticleDetail'
-import Articles from 'pages/Articles'
 import CreateArticle from 'pages/CreateArticle/CreateArticle'
+import Home from 'pages/Home'
 import Login from 'pages/Login'
 import MyArticles from 'pages/MyArticles'
 import {
@@ -17,7 +17,7 @@ const MainNavigation = () => {
     <Navigation>
       <BrowserRouter>
         <Routes>
-          <Route index element={<Articles />} />
+          <Route index element={<Home />} />
           <Route path="about" element={<About />} />
           <Route path="login" element={<Login />} />
           <Route path="articles">
