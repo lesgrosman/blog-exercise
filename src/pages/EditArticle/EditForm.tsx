@@ -7,22 +7,28 @@ import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { Store } from 'react-notifications-component'
 import { useMutation, useQueryClient } from 'react-query'
 import { useNavigate } from 'react-router-dom'
-import { createArticle } from 'services/mutations'
-import { CreateArticleMutation } from 'services/types'
+import { editArticle } from 'services/mutations'
+import { ArticleDetailType, CreateArticleMutation } from 'services/types'
 import { ROUTES } from 'utils/constants'
 import { CreateArticleFormType } from 'utils/types'
 import { articleDetailSchema } from 'utils/validation'
 
-const Form = () => {
+interface Props {
+  initValues: ArticleDetailType
+}
+
+const Form = ({ initValues }: Props) => {
   const { accessToken } = useAuthContext()
   const queryClient = useQueryClient()
   const navigate = useNavigate()
 
-  const mutationCreateArticle = useMutation((data: CreateArticleMutation) => createArticle(data, accessToken), {
+  const mutationEditArticle = useMutation((data: CreateArticleMutation) =>
+    editArticle(initValues.articleId, data, accessToken),
+  {
     onSuccess: () => {
       Store.addNotification({
         title: 'Success',
-        message: 'Article wa successfully created!',
+        message: 'Article wa successfully edited!',
         type: 'success',
         insert: 'top',
         container: 'top-right',
@@ -53,16 +59,16 @@ const Form = () => {
 
   const methods = useForm<CreateArticleFormType>({
     defaultValues: {
-      title: '',
-      perex: '',
-      content: ''
+      title: initValues.title || '',
+      perex: initValues.perex || '',
+      content: initValues.content || ''
     },
     resolver: zodResolver(articleDetailSchema),
     mode: 'onChange'
   })
 
   const handleSubmit = methods.handleSubmit((formData: CreateArticleFormType) => {
-    mutationCreateArticle.mutate(formData)
+    mutationEditArticle.mutate(formData)
   })
 
   return (

@@ -1,6 +1,7 @@
 import { TableBody as MuiTableBody } from '@mui/material'
 import { UseQueryResult } from 'react-query'
 import { ArticleItemType, ArticlesQueryDataType } from 'services/types'
+import { sortByDate } from 'utils/sort'
 import SkeletonRow from './SkeletonRow'
 import TableRow from './TableRow'
 
@@ -28,11 +29,13 @@ const TableBody = ({
     )
   }
 
-  if (isError && !queryData) return <>Error</>
+  if (isError || !queryData) return <>Error</>
+
+  const sortedItems = sortByDate(queryData.items)
 
   return (
     <MuiTableBody>
-      {queryData?.items?.map((item : ArticleItemType) => (
+      {sortedItems?.map((item : ArticleItemType) => (
         <TableRow key={item.articleId} item={item} />
       ))}
     </MuiTableBody>

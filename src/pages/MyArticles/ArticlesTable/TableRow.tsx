@@ -9,9 +9,11 @@ import { makeStyles } from '@mui/styles'
 import { useAuthContext } from 'context/auth'
 import { Store } from 'react-notifications-component'
 import { useMutation, useQueryClient } from 'react-query'
+import { useNavigate } from 'react-router-dom'
 import { deleteArticle } from 'services/mutations'
 import { ArticleItemType } from 'services/types'
 import LocalizedDate from 'utils/components/LocalizedDate'
+import { ROUTES } from 'utils/constants'
 import { COLS } from './constants'
 
 export const useStyles = makeStyles(() => ({
@@ -29,6 +31,7 @@ interface Props {
 }
 
 const TableRow = ({ item } : Props) => {
+  const navigate = useNavigate()
   const classes = useStyles()
   const { accessToken } = useAuthContext()
   const queryClient = useQueryClient()
@@ -69,6 +72,10 @@ const TableRow = ({ item } : Props) => {
     mutation.mutate(item.articleId)
   }
 
+  const handleEdit = () => {
+    navigate(`${ROUTES.EDIT_ARTICLE}/${item.articleId}`, { replace: true })
+  }
+
   return (
     <MuiTableRow>
       <TableCell style={COLS.title}>
@@ -90,6 +97,7 @@ const TableRow = ({ item } : Props) => {
       </TableCell>
       <TableCell style={COLS.actions}>
         <IconButton
+          onClick={handleEdit}
           color="primary"
           className="iconButton-error mr-3"
         >

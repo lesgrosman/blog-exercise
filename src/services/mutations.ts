@@ -14,6 +14,19 @@ export const createArticle = (
   })
 }
 
+export const editArticle = (
+  id: string,
+  data: CreateArticleMutation,
+  accessToken: string | null
+) => {
+  return axios.patch(`${BASE_URL}/articles/${id}`, data, {
+    headers: {
+      'X-API-KEY': API_KEY,
+      'Authorization': accessToken as string
+    }
+  })
+}
+
 export const deleteArticle = (id: string, accessToken: string | null) => {
   return axios.delete(`${BASE_URL}/articles/${id}`,
     {
