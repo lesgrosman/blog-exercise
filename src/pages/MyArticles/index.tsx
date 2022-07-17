@@ -1,8 +1,8 @@
 import { Box, Button, Typography } from '@mui/material'
 import { UseQueryResult, useQuery } from 'react-query'
 import { fetchArticles } from 'services/queries'
+import { ArticlesQueryDataType } from 'services/types'
 import { ROUTES } from 'utils/constants'
-import { ArticlesQueryDataType } from 'utils/types'
 import ArticlesTable from './ArticlesTable'
 
 const MyArticles = () => {

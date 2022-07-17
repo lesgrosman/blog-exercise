@@ -4,7 +4,7 @@ import { Theme } from '@mui/material/styles'
 import { makeStyles } from '@mui/styles'
 import { UseQueryResult, useQuery } from 'react-query'
 import { fetchArticles } from 'services/queries'
-import { ArticlesQueryDataType } from 'utils/types'
+import { ArticlesQueryDataType } from 'services/types'
 import List from './List'
 
 export const useStyles = makeStyles((theme: Theme) => ({

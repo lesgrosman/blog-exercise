@@ -6,7 +6,7 @@ import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
 import { makeStyles } from '@mui/styles'
 import { UseQueryResult } from 'react-query'
-import { ArticlesQueryDataType } from 'utils/types'
+import { ArticlesQueryDataType } from 'services/types'
 import { COLS } from './constants'
 import TableBody from './TableBody'
 

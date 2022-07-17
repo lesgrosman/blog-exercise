@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box'
 import { UseQueryResult } from 'react-query'
+import { ArticlesQueryDataType } from 'services/types'
 import { sortByDate } from 'utils/sort'
-import { ArticlesQueryDataType } from 'utils/types'
 import ArticleCard from './ArticleCard'
 import SkeletonCard from './SkeletonCard'
 

@@ -8,8 +8,8 @@ import { UseQueryResult, useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
 import remarkGfm from 'remark-gfm'
 import { fetchArticleDetail } from 'services/queries'
+import { ArticleDetailType } from 'services/types'
 import LocalizedDate from 'utils/components/LocalizedDate'
-import { ArticleDetailType } from 'utils/types'
 import SkeletonDetail from './SkeletonDetail'
 
 export const useStyles = makeStyles((theme: Theme) => ({

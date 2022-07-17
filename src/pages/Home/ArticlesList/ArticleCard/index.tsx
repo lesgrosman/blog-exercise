@@ -3,9 +3,9 @@ import { Theme } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import { makeStyles } from '@mui/styles'
 import Image from 'components/Image'
+import { ArticleItemType } from 'services/types'
 import LocalizedDate from 'utils/components/LocalizedDate'
 import { ROUTES } from 'utils/constants'
-import { ArticleItemType } from 'utils/types'
 import CardLayout from './CardLayout'
 
 export const useStyles = makeStyles((theme: Theme) => ({

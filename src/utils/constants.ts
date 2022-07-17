@@ -7,5 +7,6 @@ export const ROUTES = {
   ARTICLES: '/articles',
   MY_ARTICLES: '/my-articles',
   LOGIN: '/login',
-  CREATE_ARTICLE: '/create-article'
+  CREATE_ARTICLE: '/create-article',
+  EDIT_ARTICLE: '/edit-article'
 }

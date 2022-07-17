@@ -1,6 +1,7 @@
 import About from 'pages/About'
 import ArticleDetail from 'pages/ArticleDetail'
-import CreateArticle from 'pages/CreateArticle/CreateArticle'
+import CreateArticle from 'pages/CreateArticle'
+import EditArticle from 'pages/EditArticle'
 import Home from 'pages/Home'
 import Login from 'pages/Login'
 import MyArticles from 'pages/MyArticles'
@@ -9,6 +10,7 @@ import {
   Route,
   Routes
 } from 'react-router-dom'
+import { ROUTES } from 'utils/constants'
 import Navigation from './Navigation'
 import ProtectedRoute from './ProtectedRoute'
 
@@ -18,13 +20,13 @@ const MainNavigation = () => {
       <BrowserRouter>
         <Routes>
           <Route index element={<Home />} />
-          <Route path="about" element={<About />} />
-          <Route path="login" element={<Login />} />
-          <Route path="articles">
+          <Route path={ROUTES.ABOUT} element={<About />} />
+          <Route path={ROUTES.LOGIN} element={<Login />} />
+          <Route path={ROUTES.ARTICLES}>
             <Route path=":articleId" element={<ArticleDetail />} />
           </Route>
           <Route
-            path="my-articles"
+            path={ROUTES.MY_ARTICLES}
             element={
               <ProtectedRoute>
                 <MyArticles />
@@ -32,13 +34,23 @@ const MainNavigation = () => {
             }
           />
           <Route
-            path="create-article"
+            path={ROUTES.CREATE_ARTICLE}
             element={
               <ProtectedRoute>
                 <CreateArticle />
               </ProtectedRoute>
             }
           />
+          <Route path={ROUTES.EDIT_ARTICLE}>
+            <Route
+              path=":articleId"
+              element={
+                <ProtectedRoute>
+                  <EditArticle />
+                </ProtectedRoute>
+              } 
+            />
+          </Route>
           <Route path="*" element={<p>Theres nothing here: 404!</p>} />
         </Routes>
       </BrowserRouter>
