@@ -17,7 +17,7 @@ import { ROUTES } from 'utils/constants'
 import { COLS } from './constants'
 
 export const useStyles = makeStyles(() => ({
-  perex: {
+  textCell: {
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     display: '-webkit-box',
@@ -79,12 +79,15 @@ const TableRow = ({ item } : Props) => {
   return (
     <MuiTableRow>
       <TableCell style={COLS.title}>
-        <Typography>
-          {item.title}
-        </Typography>
+        <Box className={classes.textCell}>
+          <Typography>
+            {item.title}
+          </Typography>
+        </Box>
+
       </TableCell>
       <TableCell style={COLS.perex}>
-        <Box className={classes.perex}>
+        <Box className={classes.textCell}>
           <Typography>
             {item.perex}
           </Typography>
