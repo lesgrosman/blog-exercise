@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import Box from '@mui/material/Box'
-import ContentEditor from 'components/ContentEditor'
 import TextInput from 'components/Form/TextInput'
+import MuiContentEditor from 'components/MuiContentEditor'
 import { useAuthContext } from 'context/auth'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { Store } from 'react-notifications-component'
@@ -98,7 +98,7 @@ const Form = ({ initValues }: Props) => {
             control={methods.control}
             render={({ field: { value, onChange } }) => {
               return (
-                <ContentEditor defaultValue={value} onChange={onChange} />
+                <MuiContentEditor value={value} onChange={onChange} />
               )
             }}
           />
