@@ -84,7 +84,7 @@ module.exports = {
         patterns: ["lodash/**", "lodash/fp/**"],
       },
     ],
-    "no-unused-vars": "warn",
+    "no-unused-vars": "off",
     "object-curly-spacing": ["warn", "always"],
     quotes: ["warn", "single"],
     "react/jsx-curly-spacing": [

@@ -75,7 +75,6 @@ const MuiContentEditor = ({
       }}
       controls={controls}
       defaultValue={JSON.stringify(defaultValue)}
-      label="Placeholder"
       onSave={handleSave}
       onChange={handleChange}
       inlineToolbar={true}
