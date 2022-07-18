@@ -1,5 +1,6 @@
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material'
 import { AuthProvider } from 'context/auth'
+import { PaginationProvider } from 'context/pagination'
 import MainNavigation from 'navigation/MainNavigator'
 import { ReactNotifications } from 'react-notifications-component'
 import { QueryClient, QueryClientProvider } from 'react-query'
@@ -18,8 +19,11 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <ReactNotifications />
         <AuthProvider>
-          <MainNavigation />
+          <PaginationProvider>
 
+            <MainNavigation />
+
+          </PaginationProvider>
         </AuthProvider>
       </QueryClientProvider>
     </ThemeProvider>

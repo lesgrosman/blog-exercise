@@ -13,12 +13,12 @@ const TableBody = ({
   articlesQuery: {
     isLoading,
     isError,
-    data: queryData
+    data
   }
 }: Props) => {
 
   if (isLoading) {
-    const loadingRowsCount = queryData?.items.length || 6
+    const loadingRowsCount = data?.items.length || 6
 
     return (
       <MuiTableBody>
@@ -29,13 +29,11 @@ const TableBody = ({
     )
   }
 
-  if (isError || !queryData) return <>Error</>
-
-  const sortedItems = sortByDate(queryData.items)
+  if (isError || !data) return <>Error</>
 
   return (
     <MuiTableBody>
-      {sortedItems?.map((item : ArticleItemType) => (
+      {data.items.map((item : ArticleItemType) => (
         <TableRow key={item.articleId} item={item} />
       ))}
     </MuiTableBody>

@@ -95,7 +95,7 @@ const TableRow = ({ item } : Props) => {
       </TableCell>
       <TableCell  style={COLS.creationDate}>
         <Typography>
-          <LocalizedDate date={item.createdAt} placeholder="-" isRow />
+          <LocalizedDate date={item.createdAt} placeholder="-" isRaw />
         </Typography>
       </TableCell>
       <TableCell style={COLS.actions}>

@@ -32,7 +32,7 @@ const ArticlesList = ({
 
   return (
     <Box display="flex" flexDirection="column" gap={8}>
-      {sortByDate(data.items).map(item => (
+      {data.items.map(item => (
         <ArticleCard key={item.articleId} article={item} />
       ))}
     </Box>

@@ -81,6 +81,8 @@ const Form = () => {
           <TextInput
             name="perex"
             title="Article annotation"
+            multiline
+            minRows={4}
             type="text"
             fullWidth
             size="small"

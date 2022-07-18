@@ -19,7 +19,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
 const RelatedArticles = () => {
   const classes = useStyles()
   const relatedArticles: UseQueryResult<ArticlesQueryDataType, Error> = 
-    useQuery<ArticlesQueryDataType, Error>('relatedArticles', fetchArticles)
+    useQuery<ArticlesQueryDataType, Error>('relatedArticles', () => fetchArticles())
 
   return (
     <Box display="flex" flexDirection="column" gap={6} className={classes.root}>

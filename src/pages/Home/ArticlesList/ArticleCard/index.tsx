@@ -36,6 +36,7 @@ const ArticleCard = ({ article }: Props) => {
 
   const image = (
     <Image
+      // eslint-disable-next-line max-len
       src="https://www.boredpanda.com/blog/wp-content/uploads/2016/10/worlds-most-beautiful-cats-47-57fc93324976e__700.jpg"
       className={classes.image}
       alt={article.title}
@@ -50,7 +51,7 @@ const ArticleCard = ({ article }: Props) => {
 
   const date = (
     <Typography className={classes.date}>
-      <LocalizedDate date={article.createdAt} isRow />
+      <LocalizedDate date={article.createdAt} isRaw />
     </Typography>
   )
 

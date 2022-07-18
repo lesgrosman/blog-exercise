@@ -88,6 +88,8 @@ const Form = ({ initValues }: Props) => {
             name="perex"
             title="Article annotation"
             type="text"
+            multiline
+            minRows={4}
             fullWidth
             size="small"
             autoComplete="off"
