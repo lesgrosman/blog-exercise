@@ -5,7 +5,7 @@ import RichTextEditor, { EditorValue } from 'react-rte'
 
 export const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    height: 'fit-content',
+    minHeight: theme.spacing(40),
     borderRadius: theme.spacing(1),
     '&:hover': {
       border: '1px solid'

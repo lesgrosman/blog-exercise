@@ -3,3 +3,8 @@ export type CreateArticleFormType = {
   perex: string
   content: string
 }
+
+export type LoginForm = {
+  email: string
+  password: string
+}

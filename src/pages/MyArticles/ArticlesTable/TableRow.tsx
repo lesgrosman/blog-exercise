@@ -36,7 +36,7 @@ const TableRow = ({ item } : Props) => {
   const { accessToken } = useAuthContext()
   const queryClient = useQueryClient()
 
-  const mutation = useMutation((id: string) => deleteArticle(id, accessToken), {
+  const mutation = useMutation(() => deleteArticle(item.articleId, accessToken), {
     onSuccess: () => {
       Store.addNotification({
         title: 'Success',
@@ -69,7 +69,7 @@ const TableRow = ({ item } : Props) => {
   })
 
   const handleDelete = () => {
-    mutation.mutate(item.articleId)
+    mutation.mutate()
   }
 
   const handleEdit = () => {
