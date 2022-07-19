@@ -54,8 +54,7 @@ const Detail = () => {
       </Typography>
 
       <Image
-        // eslint-disable-next-line max-len
-        src="https://www.boredpanda.com/blog/wp-content/uploads/2016/10/worlds-most-beautiful-cats-47-57fc93324976e__700.jpg"
+        src="/assets/cat.jpg"
         className={classes.image}
         alt={data.title}
       />
