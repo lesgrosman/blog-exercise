@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography'
 import { makeStyles } from '@mui/styles'
 import { useAuthContext } from 'context/auth'
 import moment from 'moment'
-import { Store } from 'react-notifications-component'
+import { useSnackbar } from 'notistack'
 import { useMutation, useQueryClient } from 'react-query'
 import { voteDownComment, voteUpComment } from 'services/mutations'
 import { CommentType } from 'services/types'
@@ -34,24 +34,14 @@ const Comment = ({ comment }: Props) => {
   const classes = useStyles()
   const { accessToken, isUser } = useAuthContext()
   const queryClient = useQueryClient()
+  const { enqueueSnackbar } = useSnackbar()
 
   const mutationVoteUp = useMutation(() => voteUpComment(comment.commentId, accessToken), {
     onSuccess: () => {
       queryClient.invalidateQueries(['articleComments', comment.articledId])
     },
     onError: () => {
-      Store.addNotification({
-        title: 'Error',
-        message: 'Try again later!',
-        type: 'danger',
-        insert: 'top',
-        container: 'top-right',
-        animationIn: ['animate__animated', 'animate__fadeIn'],
-        animationOut: ['animate__animated', 'animate__fadeOut'],
-        dismiss: {
-          duration: 5000
-        }
-      })
+      enqueueSnackbar('Something went wrong', { variant: 'error' })
     }
   })
 

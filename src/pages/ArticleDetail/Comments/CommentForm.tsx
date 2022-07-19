@@ -5,8 +5,8 @@ import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
 import { useAuthContext } from 'context/auth'
+import { useSnackbar } from 'notistack'
 import { useForm } from 'react-hook-form'
-import { Store } from 'react-notifications-component'
 import { useMutation, useQueryClient } from 'react-query'
 import { addComment } from 'services/mutations'
 import { AddCommentMutation } from 'services/types'
@@ -29,37 +29,16 @@ const CommentForm = ({
 }: Props) => {
   const { accessToken, isUser } = useAuthContext()
   const queryClient = useQueryClient()
+  const { enqueueSnackbar } = useSnackbar()
 
   const mutationComment = useMutation((data: AddCommentMutation) => addComment(data, accessToken), {
     onSuccess: () => {
       reset(),
-      Store.addNotification({
-        title: 'Success',
-        message: 'Comment was added!',
-        type: 'success',
-        insert: 'top',
-        container: 'top-right',
-        animationIn: ['animate__animated', 'animate__fadeIn'],
-        animationOut: ['animate__animated', 'animate__fadeOut'],
-        dismiss: {
-          duration: 5000
-        }
-      }),
+      enqueueSnackbar('Comment was added', { variant: 'success' })
       queryClient.invalidateQueries(['articleComments', articleId])
     },
     onError: () => {
-      Store.addNotification({
-        title: 'Error',
-        message: 'Try again later!',
-        type: 'danger',
-        insert: 'top',
-        container: 'top-right',
-        animationIn: ['animate__animated', 'animate__fadeIn'],
-        animationOut: ['animate__animated', 'animate__fadeOut'],
-        dismiss: {
-          duration: 5000
-        }
-      })
+      enqueueSnackbar('Something went wrong', { variant: 'error' })
     }
   })
 

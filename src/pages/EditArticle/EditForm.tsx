@@ -3,8 +3,8 @@ import Box from '@mui/material/Box'
 import TextInput from 'components/Form/TextInput'
 import MuiContentEditor from 'components/MuiContentEditor'
 import { useAuthContext } from 'context/auth'
+import { useSnackbar } from 'notistack'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
-import { Store } from 'react-notifications-component'
 import { useMutation, useQueryClient } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 import { editArticle } from 'services/mutations'
@@ -21,39 +21,18 @@ const Form = ({ initValues }: Props) => {
   const { accessToken } = useAuthContext()
   const queryClient = useQueryClient()
   const navigate = useNavigate()
+  const { enqueueSnackbar } = useSnackbar()
 
   const mutationEditArticle = useMutation((data: CreateArticleMutation) =>
     editArticle(initValues.articleId, data, accessToken),
   {
     onSuccess: () => {
-      Store.addNotification({
-        title: 'Success',
-        message: 'Article wa successfully edited!',
-        type: 'success',
-        insert: 'top',
-        container: 'top-right',
-        animationIn: ['animate__animated', 'animate__fadeIn'],
-        animationOut: ['animate__animated', 'animate__fadeOut'],
-        dismiss: {
-          duration: 5000
-        }
-      }),
+      enqueueSnackbar('Article wa edited!', { variant: 'success' })
       navigate(`${ROUTES.HOME}`, { replace: true })
       queryClient.invalidateQueries('articles')
     },
     onError: () => {
-      Store.addNotification({
-        title: 'Error',
-        message: 'Something went wrong:(',
-        type: 'danger',
-        insert: 'top',
-        container: 'top-right',
-        animationIn: ['animate__animated', 'animate__fadeIn'],
-        animationOut: ['animate__animated', 'animate__fadeOut'],
-        dismiss: {
-          duration: 5000
-        }
-      })
+      enqueueSnackbar('Something went wrong!', { variant: 'error' })
     }
   })
 
