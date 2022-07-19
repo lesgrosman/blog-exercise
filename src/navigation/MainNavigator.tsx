@@ -1,4 +1,3 @@
-import About from 'pages/About'
 import ArticleDetail from 'pages/ArticleDetail'
 import CreateArticle from 'pages/CreateArticle'
 import EditArticle from 'pages/EditArticle'
@@ -20,7 +19,6 @@ const MainNavigation = () => {
       <BrowserRouter>
         <Routes>
           <Route index element={<Home />} />
-          <Route path={ROUTES.ABOUT} element={<About />} />
           <Route path={ROUTES.LOGIN} element={<Login />} />
           <Route path={ROUTES.ARTICLES}>
             <Route path=":articleId" element={<ArticleDetail />} />

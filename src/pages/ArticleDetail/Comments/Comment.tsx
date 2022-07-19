@@ -48,8 +48,13 @@ const Comment = ({ comment }: Props) => {
   const mutationVoteDown = useMutation(() => voteDownComment(comment.commentId, accessToken), {
     onSuccess: () => {
       queryClient.invalidateQueries(['articleComments', comment.articledId])
+    },
+    onError: () => {
+      enqueueSnackbar('Something went wrong', { variant: 'error' })
     }
   })
+
+  const dateTimeZone =  moment(moment.utc(comment.createdAt)).local().fromNow()
 
   return (
     <Grid container>
@@ -63,7 +68,7 @@ const Comment = ({ comment }: Props) => {
             {comment.author}
           </Typography>
           <Typography variant="subtitle2" className={classes.date}>
-            {moment(comment.createdAt).fromNow()}
+            {dateTimeZone}
           </Typography>
         </Box>
 
