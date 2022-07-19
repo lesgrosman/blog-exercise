@@ -10,10 +10,6 @@ import CardLayout from './CardLayout'
 
 export const useStyles = makeStyles((theme: Theme) => ({
   image: {
-    borderRadius: `${theme.shape.borderRadius}px 0 0 ${theme.shape.borderRadius}px`,
-    [theme.breakpoints.down('sm')]: {
-      borderRadius: `${theme.shape.borderRadius}px ${theme.shape.borderRadius}px 0 0`
-    },
     objectFit: 'cover',
     objectPosition: 'center',
     width: '100%',
@@ -36,8 +32,7 @@ const ArticleCard = ({ article }: Props) => {
 
   const image = (
     <Image
-      // eslint-disable-next-line max-len
-      src="https://www.boredpanda.com/blog/wp-content/uploads/2016/10/worlds-most-beautiful-cats-47-57fc93324976e__700.jpg"
+      src="/assets/cat.jpg"
       className={classes.image}
       alt={article.title}
     />
