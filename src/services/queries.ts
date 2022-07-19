@@ -1,12 +1,8 @@
 import axios from 'axios'
 import { API_KEY, BASE_URL } from 'utils/constants'
 
-export const fetchArticles = async (limit?: number, offset?: number) => {
+export const fetchArticles = async () => {
   const { data } = await axios.get(`${BASE_URL}/articles`, {
-    params: {
-      limit,
-      offset
-    },
     headers: {
       'X-API-KEY': API_KEY
     }

@@ -74,9 +74,6 @@ const Navigation = ({ children }: Props) => {
               <Typography component="a" href={ROUTES.HOME} className={classes.link}>
                 Articles
               </Typography>
-              <Typography component="a" href={ROUTES.ABOUT} className={classes.link}>
-                About
-              </Typography>
             </Box>
 
             {isUser ? (

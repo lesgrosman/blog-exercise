@@ -4,7 +4,6 @@ import { TableRow as MuiTableRow } from '@mui/material'
 import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
 import TableCell from '@mui/material/TableCell'
-import Typography from '@mui/material/Typography'
 import { makeStyles } from '@mui/styles'
 import Modal from 'components/Modal'
 import { useAuthContext } from 'context/auth'
@@ -13,10 +12,10 @@ import { useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 import { deleteArticle } from 'services/mutations'
-import { ArticleItemType } from 'services/types'
 import LocalizedDate from 'utils/components/LocalizedDate'
 import { ROUTES } from 'utils/constants'
 import { COLS } from './constants'
+import { TableItem } from './types'
 
 export const useStyles = makeStyles(() => ({
   textCell: {
@@ -29,19 +28,20 @@ export const useStyles = makeStyles(() => ({
 }))
 
 interface Props {
-  item: ArticleItemType
+  row: TableItem
 }
-
-const TableRow = ({ item } : Props) => {
-  const navigate = useNavigate()
+const TableRow = ({
+  row
+}: Props) => {
   const classes = useStyles()
   const { accessToken } = useAuthContext()
   const queryClient = useQueryClient()
   const { enqueueSnackbar } = useSnackbar()
+  const navigate = useNavigate()
 
   const [modalIsOpen, setModalIsOpen] = useState(false)
 
-  const mutation = useMutation(() => deleteArticle(item.articleId, accessToken), {
+  const mutation = useMutation(() => deleteArticle(row.id, accessToken), {
     onSuccess: () => {
       enqueueSnackbar('Article wa deleted', { variant: 'success' })
       queryClient.invalidateQueries(['articles'])
@@ -57,11 +57,11 @@ const TableRow = ({ item } : Props) => {
   }
 
   const handleEdit = () => {
-    navigate(`${ROUTES.EDIT_ARTICLE}/${item.articleId}`, { replace: true })
+    navigate(`${ROUTES.EDIT_ARTICLE}/${row.id}`, { replace: true })
   }
 
   return (
-    <>
+    <MuiTableRow hover>
       <Modal
         isOpen={modalIsOpen}
         title="Confirmation"
@@ -69,47 +69,52 @@ const TableRow = ({ item } : Props) => {
         onConfirm={handleDelete}
         onClose={() => setModalIsOpen(false)}
       />
-      <MuiTableRow>
-        <TableCell style={COLS.title}>
-          <Box className={classes.textCell}>
-            <Typography>
-              {item.title}
-            </Typography>
-          </Box>
-
-        </TableCell>
-        <TableCell style={COLS.perex}>
-          <Box className={classes.textCell}>
-            <Typography>
-              {item.perex}
-            </Typography>
-          </Box>
-        </TableCell>
-        <TableCell  style={COLS.creationDate}>
-          <Typography>
-            <LocalizedDate date={item.createdAt} placeholder="-" isRaw />
-          </Typography>
-        </TableCell>
-        <TableCell style={COLS.actions}>
-          <IconButton
-            onClick={handleEdit}
-            color="primary"
-            className="iconButton-error mr-3"
-          >
-            <EditIcon />
-          </IconButton>
-          <IconButton
-            onClick={() => setModalIsOpen(true)}
-            disabled={mutation.isLoading}
-            color="error"
-            className="iconButton-error"
-          >
-            <DeleteIcon />
-          </IconButton>
-        </TableCell>
-      </MuiTableRow>
-    </>
-
+      <TableCell
+        className={classes.textCell}
+        component="th"
+        scope="row"
+        style={COLS.title}
+      >
+        <Box className={classes.textCell}>
+          {row.title}
+        </Box>
+      </TableCell>
+      <TableCell
+        className={classes.textCell}
+        align="left"
+        style={COLS.perex}
+      >
+        <Box className={classes.textCell}>
+          {row.perex}
+        </Box>
+      </TableCell>
+      <TableCell
+        align="left"
+        style={COLS.creationDate}
+      >
+        <LocalizedDate date={row.date} isRaw/>
+      </TableCell>
+      <TableCell 
+        align="left"
+        style={COLS.actions}
+      >
+        <IconButton
+          onClick={handleEdit}
+          color="primary"
+          className="iconButton-error mr-3"
+        >
+          <EditIcon />
+        </IconButton>
+        <IconButton
+          onClick={() => setModalIsOpen(true)}
+          disabled={mutation.isLoading}
+          color="error"
+          className="iconButton-error"
+        >
+          <DeleteIcon />
+        </IconButton>
+      </TableCell>
+    </MuiTableRow>
   )
 }
 

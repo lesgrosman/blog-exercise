@@ -3,7 +3,6 @@ export const BASE_URL = 'https://fullstack.exercise.applifting.cz'
 
 export const ROUTES = {
   HOME: '/',
-  ABOUT: '/about',
   ARTICLES: '/articles',
   MY_ARTICLES: '/my-articles',
   LOGIN: '/login',
