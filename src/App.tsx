@@ -2,10 +2,9 @@ import { CssBaseline, ThemeProvider, createTheme } from '@mui/material'
 import { AuthProvider } from 'context/auth'
 import { PaginationProvider } from 'context/pagination'
 import MainNavigation from 'navigation/MainNavigator'
-import { ReactNotifications } from 'react-notifications-component'
+import { SnackbarProvider } from 'notistack'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import themeOptions from 'utils/styles/theme'
-import 'react-notifications-component/dist/theme.css'
 
 
 const queryClient = new QueryClient()
@@ -16,16 +15,24 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <QueryClientProvider client={queryClient}>
-        <ReactNotifications />
-        <AuthProvider>
-          <PaginationProvider>
+      <SnackbarProvider
+        maxSnack={3}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right'
+        }}
+      >
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider>
+            <PaginationProvider>
 
-            <MainNavigation />
+              <MainNavigation />
 
-          </PaginationProvider>
-        </AuthProvider>
-      </QueryClientProvider>
+            </PaginationProvider>
+          </AuthProvider>
+        </QueryClientProvider>
+      </SnackbarProvider>
+
     </ThemeProvider>
   )
 }
