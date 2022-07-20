@@ -1,10 +1,13 @@
+import { FormHelperText } from '@mui/material'
+import Box from '@mui/material/Box'
 import { Theme } from '@mui/material/styles'
 import { makeStyles } from '@mui/styles'
+import clsx from 'clsx'
 import { EditorState, RawDraftContentState, convertToRaw } from 'draft-js'
 import { draftToMarkdown, markdownToDraft } from 'markdown-draft-js'
 import MUIRichTextEditor from 'mui-rte'
 import { useState } from 'react'
-
+import { FieldError } from 'react-hook-form'
 
 export const useStyles = makeStyles((theme: Theme) => ({
   toolbar: {
@@ -12,9 +15,17 @@ export const useStyles = makeStyles((theme: Theme) => ({
   },
   editor: {
     minHeight: theme.spacing(40),
-    border: '1px solid rgba(196, 196, 196, 1)',
     borderRadius: theme.spacing(1),
-    padding: '4px ',
+    padding: '4px '
+  },
+  editorError: {
+    border: '1px solid rgb(255, 76, 48)',
+    '&:hover': {
+      border: '1px solid rgb(255, 76, 48)'
+    }
+  },
+  editorNoError: {
+    border: '1px solid rgba(196, 196, 196, 1)',
     '&:hover': {
       border: '1px solid'
     }
@@ -24,6 +35,8 @@ export const useStyles = makeStyles((theme: Theme) => ({
 interface Props {
   value?: string
   onChange?: (v: any) => void
+  error?: FieldError
+  isSubmitted?: boolean
 }
 
 const controls = [
@@ -46,7 +59,9 @@ const controls = [
 
 const MuiContentEditor = ({
   value,
-  onChange
+  onChange,
+  error,
+  isSubmitted
 }: Props) => {
   const classes = useStyles()
 
@@ -67,18 +82,30 @@ const MuiContentEditor = ({
     }
   }
 
+  const isError = !!(error && isSubmitted)
+
   return (
-    <MUIRichTextEditor
-      classes={{
-        toolbar: classes.toolbar,
-        editorContainer: classes.editor
-      }}
-      controls={controls}
-      defaultValue={JSON.stringify(defaultValue)}
-      onSave={handleSave}
-      onChange={handleChange}
-      inlineToolbar={true}
-    />
+    <Box>
+      {isError && <FormHelperText error={!!error}>{error?.message}</FormHelperText>}    
+      <Box>  
+        <MUIRichTextEditor
+          classes={{
+            toolbar: classes.toolbar,
+            editorContainer: clsx({
+              [classes.editor]: true,
+              [classes.editorError]: isError,
+              [classes.editorNoError]: !isError
+            })
+          }}
+          controls={controls}
+          defaultValue={JSON.stringify(defaultValue)}
+          onSave={handleSave}
+          onChange={handleChange}
+          inlineToolbar={true}
+        />
+      </Box>
+    </Box>
+
   )
 }
 

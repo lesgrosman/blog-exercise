@@ -1,4 +1,4 @@
-import { zodResolver } from '@hookform/resolvers/zod'
+import { yupResolver } from '@hookform/resolvers/yup'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import FormHelperText from '@mui/material/FormHelperText'
@@ -6,6 +6,7 @@ import Grid from '@mui/material/Grid'
 import { Theme } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import { makeStyles } from '@mui/styles'
+import { AxiosError } from 'axios'
 import TextInput from 'components/Form/TextInput'
 import { useAuthContext } from 'context/auth'
 import { FieldValues, FormProvider, useForm } from 'react-hook-form'
@@ -13,7 +14,7 @@ import { Navigate } from 'react-router-dom'
 import { ROUTES } from 'utils/constants'
 import { useLogin } from 'utils/hooks/useLogin'
 import { LoginForm } from 'utils/types'
-import * as z from 'zod'
+import * as yup from 'yup'
 
 export const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -31,9 +32,11 @@ export const useStyles = makeStyles((theme: Theme) => ({
   }
 }))
 
-const schema = z.object({
-  email: z.string().email({ message: 'Please enter correct email' }),
-  password: z.string().min(1, { message: 'Required' })
+const schema = yup.object({
+  email: yup.string()
+    .required('Please enter your email')
+    .email('Please enter correct email'),
+  password: yup.string().required('Please enter password')
 })
 
 const Login = () => {
@@ -46,9 +49,8 @@ const Login = () => {
       email: '',
       password: ''
     },
-    resolver: zodResolver(schema),
-    mode: 'onChange',
-    reValidateMode: 'onChange'
+    resolver: yupResolver(schema),
+    mode: 'onChange'
   })
 
   const handleFormSubmit = methods.handleSubmit((data: FieldValues) => {
@@ -58,6 +60,8 @@ const Login = () => {
   if (isUser) {
     return <Navigate to={ROUTES.HOME} replace />
   }
+
+  const errorMessage = error instanceof AxiosError ? error?.response?.data?.message : error?.message
 
   return (
     <Grid container className={classes.root}>
@@ -91,8 +95,8 @@ const Login = () => {
                 </Button>
               </Box>
 
-              {error && <FormHelperText id="my-helper-text" error>{error?.message}</FormHelperText>}
             </form>
+            {error && <FormHelperText id="my-helper-text" error>{errorMessage}</FormHelperText>}
           </FormProvider>
 
         </Box>

@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { API_KEY, BASE_URL } from 'utils/constants'
+import { EditArticleFormType } from 'utils/types'
 import { AddCommentMutation, CreateArticleMutation } from './types'
 
 export const createArticle = (
@@ -14,9 +15,22 @@ export const createArticle = (
   })
 }
 
+export const uploadImage = (
+  image: FormData,
+  accessToken: string | null
+) => {
+  return axios.post(`${BASE_URL}/images`, image, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      'X-API-KEY': API_KEY,
+      'Authorization': accessToken as string
+    }
+  })
+}
+
 export const editArticle = (
   id: string,
-  data: CreateArticleMutation,
+  data: EditArticleFormType,
   accessToken: string | null
 ) => {
   return axios.patch(`${BASE_URL}/articles/${id}`, data, {

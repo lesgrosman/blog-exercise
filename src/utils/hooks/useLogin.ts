@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { useAuthContext } from 'context/auth'
 import { useCallback, useState } from 'react'
 import { API_KEY, BASE_URL } from 'utils/constants'
@@ -14,7 +14,7 @@ type UseLogin = [
 export const useLogin = (): UseLogin => {
   //state
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<Error | null>(null)
+  const [error, setError] = useState<Error | null | AxiosError>(null)
 
   //auth store
   const { setIsUser } = useAuthContext()
@@ -46,7 +46,7 @@ export const useLogin = (): UseLogin => {
         setIsUser(false)
         localStorage.setItem('accessToken', '')
         setLoading(false)
-        setError(err as Error)
+        setError(err as AxiosError)
       }
     },
     [error, setIsUser]

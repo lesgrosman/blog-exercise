@@ -1,5 +1,6 @@
-import { zodResolver } from '@hookform/resolvers/zod'
+import { yupResolver } from '@hookform/resolvers/yup'
 import Box from '@mui/material/Box'
+import FileInput from 'components/Form/FileInput'
 import TextInput from 'components/Form/TextInput'
 import MuiContentEditor from 'components/MuiContentEditor'
 import { useAuthContext } from 'context/auth'
@@ -7,11 +8,11 @@ import { useSnackbar } from 'notistack'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { useMutation, useQueryClient } from 'react-query'
 import { useNavigate } from 'react-router-dom'
-import { createArticle } from 'services/mutations'
+import { createArticle, uploadImage } from 'services/mutations'
 import { CreateArticleMutation } from 'services/types'
 import { ROUTES } from 'utils/constants'
 import { CreateArticleFormType } from 'utils/types'
-import { articleDetailSchema } from 'utils/validation'
+import { createArticleSchema } from 'utils/validation'
 
 const Form = () => {
   const { accessToken } = useAuthContext()
@@ -21,9 +22,23 @@ const Form = () => {
 
   const mutationCreateArticle = useMutation((data: CreateArticleMutation) => createArticle(data, accessToken), {
     onSuccess: () => {
-      enqueueSnackbar('Article was created', { variant: 'success' })
       navigate(`${ROUTES.HOME}`, { replace: true })
       queryClient.invalidateQueries('articles')
+      enqueueSnackbar('Article was successfully added!', { variant: 'success' })
+    },
+    onError: () => {
+      enqueueSnackbar('Something went wrong', { variant: 'error' })
+    }
+  })
+
+  const mutationImage = useMutation((image: FormData) => uploadImage(image, accessToken), {
+    onSuccess: (data) => {
+      mutationCreateArticle.mutate({
+        title: methods.getValues('title'),
+        perex: methods.getValues('perex'),
+        content: methods.getValues('content'),
+        imageId: data.data[0].imageId
+      })
     },
     onError: () => {
       enqueueSnackbar('Something went wrong', { variant: 'error' })
@@ -34,14 +49,26 @@ const Form = () => {
     defaultValues: {
       title: '',
       perex: '',
-      content: ''
+      content: '',
+      image: null
     },
-    resolver: zodResolver(articleDetailSchema),
+    resolver: yupResolver(createArticleSchema),
     mode: 'onChange'
   })
 
-  const handleSubmit = methods.handleSubmit((formData: CreateArticleFormType) => {
-    mutationCreateArticle.mutate(formData)
+  const handleSubmit = methods.handleSubmit((formValues: CreateArticleFormType) => {
+    const image = new FormData()
+
+    if (formValues.image) {
+      image.append('image', formValues.image[0])
+      mutationImage.mutate(image)
+    } else {
+      mutationCreateArticle.mutate({
+        title: formValues.title,
+        perex: formValues.perex,
+        content: formValues.content
+      })
+    }
   })
 
   return (
@@ -68,12 +95,22 @@ const Form = () => {
             autoComplete="off"
             placeholder="My First Article"
           />
+
+          <FileInput
+            name="image"
+            register={methods.register}
+          />
+
           <Controller 
             name="content"
             control={methods.control}
-            render={({ field: { value, onChange } }) => {
+            render={({
+              field: { value, onChange },
+              fieldState: { error },
+              formState: { isSubmitted }
+            }) => {
               return (
-                <MuiContentEditor value={value} onChange={onChange} />
+                <MuiContentEditor value={value} onChange={onChange} error={error} isSubmitted={isSubmitted} />
               )
             }}
           />
