@@ -43,6 +43,7 @@ const TableBody = ({
   const createData = (data: ArticleItemType) => {
     return {
       id: data.articleId,
+      imageId: data.imageId,
       title: data.title,
       perex: data.perex,
       date: data.createdAt

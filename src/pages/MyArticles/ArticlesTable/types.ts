@@ -3,6 +3,7 @@ export type TableItem = {
   title: string
   perex: string
   date: string
+  imageId: string
 }
 
 export type HeadCell = {

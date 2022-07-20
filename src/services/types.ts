@@ -2,6 +2,14 @@ export type CreateArticleMutation = {
   title: string
   perex: string
   content: string
+  imageId?: string
+}
+
+export type EditArticleMutation = {
+  title: string
+  perex: string
+  content: string
+  imageId?: string
 }
 
 export type AddCommentMutation = {

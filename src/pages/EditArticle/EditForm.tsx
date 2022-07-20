@@ -1,5 +1,6 @@
-import { zodResolver } from '@hookform/resolvers/zod'
+import { yupResolver } from '@hookform/resolvers/yup'
 import Box from '@mui/material/Box'
+import FileInput from 'components/Form/FileInput'
 import TextInput from 'components/Form/TextInput'
 import MuiContentEditor from 'components/MuiContentEditor'
 import { useAuthContext } from 'context/auth'
@@ -7,11 +8,11 @@ import { useSnackbar } from 'notistack'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { useMutation, useQueryClient } from 'react-query'
 import { useNavigate } from 'react-router-dom'
-import { editArticle } from 'services/mutations'
-import { ArticleDetailType, CreateArticleMutation } from 'services/types'
+import { editArticle, uploadImage } from 'services/mutations'
+import { ArticleDetailType, EditArticleMutation } from 'services/types'
 import { ROUTES } from 'utils/constants'
-import { CreateArticleFormType } from 'utils/types'
-import { articleDetailSchema } from 'utils/validation'
+import { EditArticleFormType } from 'utils/types'
+import { editArticleSchema } from 'utils/validation'
 
 interface Props {
   initValues: ArticleDetailType
@@ -23,7 +24,7 @@ const Form = ({ initValues }: Props) => {
   const navigate = useNavigate()
   const { enqueueSnackbar } = useSnackbar()
 
-  const mutationEditArticle = useMutation((data: CreateArticleMutation) =>
+  const mutationEditArticle = useMutation((data: EditArticleMutation) =>
     editArticle(initValues.articleId, data, accessToken),
   {
     onSuccess: () => {
@@ -36,23 +37,48 @@ const Form = ({ initValues }: Props) => {
     }
   })
 
-  const methods = useForm<CreateArticleFormType>({
+  const mutationImage = useMutation((image: FormData) => uploadImage(image, accessToken), {
+    onSuccess: (data) => {
+      mutationEditArticle.mutate({
+        title: methods.getValues('title'),
+        perex: methods.getValues('perex'),
+        content: methods.getValues('content'),
+        imageId: data.data[0].imageId
+      })
+    },
+    onError: () => {
+      enqueueSnackbar('Something went wrong', { variant: 'error' })
+    }
+  })
+
+  const methods = useForm<EditArticleFormType>({
     defaultValues: {
       title: initValues.title || '',
       perex: initValues.perex || '',
       content: initValues.content || ''
     },
-    resolver: zodResolver(articleDetailSchema),
+    resolver: yupResolver(editArticleSchema),
     mode: 'onChange'
   })
 
-  const handleSubmit = methods.handleSubmit((formData: CreateArticleFormType) => {
-    mutationEditArticle.mutate(formData)
+  const handleSubmit = methods.handleSubmit((formValues: EditArticleFormType) => {
+    const image = new FormData()
+
+    if (formValues.image?.length) {
+      image.append('image', formValues.image[0])
+      mutationImage.mutate(image)
+    } else {
+      mutationEditArticle.mutate({
+        title: formValues.title,
+        perex: formValues.perex,
+        content: formValues.content
+      })
+    }
   })
 
   return (
     <FormProvider  {...methods}>
-      <form onSubmit={handleSubmit} id="createArticle">
+      <form onSubmit={handleSubmit} id="editArticle">
         <Box display="flex" flexDirection="column" gap={5}>
           <TextInput
             name="title"
@@ -73,6 +99,11 @@ const Form = ({ initValues }: Props) => {
             size="small"
             autoComplete="off"
             placeholder="My First Article"
+          />
+
+          <FileInput
+            name="image"
+            register={methods.register}
           />
           <Controller 
             name="content"

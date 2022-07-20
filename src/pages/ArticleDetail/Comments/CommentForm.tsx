@@ -1,4 +1,4 @@
-import { zodResolver } from '@hookform/resolvers/zod'
+import { yupResolver } from '@hookform/resolvers/yup'
 import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -10,14 +10,14 @@ import { useForm } from 'react-hook-form'
 import { useMutation, useQueryClient } from 'react-query'
 import { addComment } from 'services/mutations'
 import { AddCommentMutation } from 'services/types'
-import * as z from 'zod'
+import * as yup from 'yup'
 
 type CommentFormType = {
   content: string
 }
 
-const schema = z.object({
-  content: z.string().min(1, 'Cannot leave empty comment!')
+const schema = yup.object({
+  content: yup.string().required('Cannot leave empty comment!')
 })
 
 interface Props {
@@ -51,7 +51,7 @@ const CommentForm = ({
     defaultValues: {
       content: ''
     },
-    resolver: zodResolver(schema),
+    resolver: yupResolver(schema),
     mode: 'onChange'
   })
 

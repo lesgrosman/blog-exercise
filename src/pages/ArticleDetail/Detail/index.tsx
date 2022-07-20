@@ -1,15 +1,13 @@
 import Box from '@mui/material/Box'
 import { Theme } from '@mui/material/styles'
-import Typography from '@mui/material/Typography'
 import { makeStyles } from '@mui/styles'
-import Image from 'components/Image'
 import ReactMarkdown from 'react-markdown'
 import { UseQueryResult, useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
 import remarkGfm from 'remark-gfm'
 import { fetchArticleDetail } from 'services/queries'
 import { ArticleDetailType } from 'services/types'
-import LocalizedDate from 'utils/components/LocalizedDate'
+import FetchImage from './FetchImage'
 import SkeletonDetail from './SkeletonDetail'
 
 export const useStyles = makeStyles((theme: Theme) => ({
@@ -45,19 +43,8 @@ const Detail = () => {
   
   return (
     <Box display="flex" flexDirection="column" gap={2} paddingBottom={4}>
-      <Typography variant="h4">
-        {data.title}
-      </Typography>
-
-      <Typography variant="inherit" className={classes.date}>
-        <LocalizedDate date={data.createdAt} isRaw />
-      </Typography>
-
-      <Image
-        src="/assets/cat.jpg"
-        className={classes.image}
-        alt={data.title}
-      />
+      
+      <FetchImage article={data} />
 
       <ReactMarkdown remarkPlugins={[remarkGfm]}>
         {data.content}

@@ -6,7 +6,7 @@ import { UseQueryResult, useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
 import { fetchArticleDetail } from 'services/queries'
 import { ArticleDetailType } from 'services/types'
-import Form from './EditForm'
+import FetchImage from './FetchImage'
 
 const EditArticle = () => {
   const { articleId } = useParams()
@@ -34,13 +34,16 @@ const EditArticle = () => {
             type="submit"
             variant="contained"
             size="small"
-            form="createArticle"
+            form="editArticle"
           >
             Edit Article
           </Button>
         </Box>
 
-        <Form initValues={data}/>
+        <FetchImage
+          imageId={data.imageId}
+          data={data}
+        />
       </Grid>
     </Grid>
   )

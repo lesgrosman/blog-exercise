@@ -3,9 +3,10 @@ import { Theme } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import { makeStyles } from '@mui/styles'
 import Image from 'components/Image'
+import { useEffect, useState } from 'react'
 import { ArticleItemType } from 'services/types'
 import LocalizedDate from 'utils/components/LocalizedDate'
-import { ROUTES } from 'utils/constants'
+import { API_KEY, BASE_URL, ROUTES } from 'utils/constants'
 import CardLayout from './CardLayout'
 
 export const useStyles = makeStyles((theme: Theme) => ({
@@ -29,10 +30,24 @@ interface Props {
 
 const ArticleCard = ({ article }: Props) => {
   const classes = useStyles()
+  const [imageUrl, setImageUrl] = useState('')
+
+  useEffect(() => {
+    fetch(`${BASE_URL}/images/${article.imageId}`, {
+      method: 'GET',
+      headers: { 'X-API-KEY': API_KEY }
+    }).then((response) => {
+      response.blob().then(myBlob => {
+        const objectUrl = URL.createObjectURL(myBlob)
+        setImageUrl(objectUrl)
+      })
+    })
+  }, [article.imageId])
+
 
   const image = (
     <Image
-      src="/assets/cat.jpg"
+      src={imageUrl}
       className={classes.image}
       alt={article.title}
     />
@@ -81,3 +96,4 @@ const ArticleCard = ({ article }: Props) => {
 }
 
 export default ArticleCard
+

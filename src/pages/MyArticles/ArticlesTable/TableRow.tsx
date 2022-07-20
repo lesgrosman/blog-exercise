@@ -41,7 +41,7 @@ const TableRow = ({
 
   const [modalIsOpen, setModalIsOpen] = useState(false)
 
-  const mutation = useMutation(() => deleteArticle(row.id, accessToken), {
+  const mutationDeleteArticle = useMutation(() => deleteArticle(row.id, accessToken), {
     onSuccess: () => {
       enqueueSnackbar('Article wa deleted', { variant: 'success' })
       queryClient.invalidateQueries(['articles'])
@@ -53,7 +53,7 @@ const TableRow = ({
 
   const handleDelete = () => {
     setModalIsOpen(false)
-    mutation.mutate()
+    mutationDeleteArticle.mutate()
   }
 
   const handleEdit = () => {
@@ -107,7 +107,7 @@ const TableRow = ({
         </IconButton>
         <IconButton
           onClick={() => setModalIsOpen(true)}
-          disabled={mutation.isLoading}
+          disabled={mutationDeleteArticle.isLoading}
           color="error"
           className="iconButton-error"
         >
