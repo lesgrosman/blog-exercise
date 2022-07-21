@@ -61,23 +61,21 @@ export const addComment = (data: AddCommentMutation, accessToken: string | null)
   })
 }
 
-export const voteUpComment = (commentId: string, accessToken: string | null) => {
-  return axios.post(`${BASE_URL}/comments/${commentId}/vote/up`,
+export const voteComment = (commentId: string, direction: 'up' | 'down') => {
+  return axios.post(`${BASE_URL}/comments/${commentId}/vote/${direction}`, null,
     {
       headers: {
-        'X-API-KEY': API_KEY,
-        'Authorization': accessToken as string
+        'X-API-KEY': API_KEY
       }
     }
   )
 }
 
 export const voteDownComment = (commentId: string, accessToken: string | null) => {
-  return axios.post(`${BASE_URL}/comments/${commentId}/vote/down`,
+  return axios.post(`${BASE_URL}/comments/${commentId}/vote/down`, null,
     {
       headers: {
-        'X-API-KEY': API_KEY,
-        'Authorization': accessToken as string
+        'X-API-KEY': API_KEY
       }
     }
   )

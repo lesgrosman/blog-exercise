@@ -2,6 +2,7 @@ import Button from '@mui/material/Button'
 import { Theme } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import { makeStyles } from '@mui/styles'
+import axios from 'axios'
 import Image from 'components/Image'
 import { useEffect, useState } from 'react'
 import { ArticleItemType } from 'services/types'
@@ -33,15 +34,26 @@ const ArticleCard = ({ article }: Props) => {
   const [imageUrl, setImageUrl] = useState('')
 
   useEffect(() => {
-    fetch(`${BASE_URL}/images/${article.imageId}`, {
-      method: 'GET',
-      headers: { 'X-API-KEY': API_KEY }
-    }).then((response) => {
-      response.blob().then(myBlob => {
-        const objectUrl = URL.createObjectURL(myBlob)
-        setImageUrl(objectUrl)
-      })
-    })
+    const fetchImage = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL}/images/${article.imageId}`, {
+          headers: { 'X-API-KEY': API_KEY },
+          responseType: 'blob'
+        })
+        const imageString = response.data
+        const reader = new FileReader()
+        reader.readAsDataURL(imageString)
+        reader.onload = () => {
+          const imageDataUrl = reader.result
+          if (typeof imageDataUrl === 'string') {
+            setImageUrl(imageDataUrl)
+          }
+        }
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    fetchImage()
   }, [article.imageId])
 
 

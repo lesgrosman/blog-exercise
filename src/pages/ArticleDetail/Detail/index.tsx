@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom'
 import remarkGfm from 'remark-gfm'
 import { fetchArticleDetail } from 'services/queries'
 import { ArticleDetailType } from 'services/types'
-import FetchImage from './FetchImage'
+import Content from './Content'
 import SkeletonDetail from './SkeletonDetail'
 
 export const useStyles = makeStyles((theme: Theme) => ({
@@ -44,7 +44,7 @@ const Detail = () => {
   return (
     <Box display="flex" flexDirection="column" gap={2} paddingBottom={4}>
       
-      <FetchImage article={data} />
+      <Content article={data} />
 
       <ReactMarkdown remarkPlugins={[remarkGfm]}>
         {data.content}
