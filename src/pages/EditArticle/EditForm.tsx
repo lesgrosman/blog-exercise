@@ -2,7 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import Box from '@mui/material/Box'
 import FileInput from 'components/Form/FileInput'
 import TextInput from 'components/Form/TextInput'
-import MuiContentEditor from 'components/MuiContentEditor'
+import RichTextEditor from 'components/RichTextEditor'
 import { useAuthContext } from 'context/auth'
 import { useSnackbar } from 'notistack'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
@@ -110,9 +110,13 @@ const Form = ({ article }: Props) => {
           <Controller 
             name="content"
             control={methods.control}
-            render={({ field: { value, onChange } }) => {
+            render={({
+              field: { value, onChange },
+              fieldState: { error },
+              formState: { isSubmitted }
+            }) => {
               return (
-                <MuiContentEditor value={value} onChange={onChange} />
+                <RichTextEditor value={value} onChange={onChange} error={error} isSubmitted={isSubmitted} />
               )
             }}
           />
