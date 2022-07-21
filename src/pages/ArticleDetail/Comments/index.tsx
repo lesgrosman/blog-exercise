@@ -21,15 +21,10 @@ const Comments = () => {
       enabled: !!id
     })
 
-  if (isLoading) {
-    return (
-      <SkeletonItem />
-    )
-  }
+  if (isLoading) return <SkeletonItem />
 
-  if (isError || !data) {
-    return <>Error</>
-  }
+  if (isError || !data) return null
+
   return (
     <Box display="flex" flexDirection="column" gap={3} pt={4}>
       <Typography variant="h5">

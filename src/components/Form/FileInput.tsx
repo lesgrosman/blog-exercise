@@ -4,8 +4,9 @@ import Button from '@mui/material/Button'
 import { Theme } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import { makeStyles } from '@mui/styles'
+import axios from 'axios'
 import Image from 'components/Image'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { UseFormRegister, useController, useFormContext } from 'react-hook-form'
 import { API_KEY, BASE_URL } from 'utils/constants'
 import { CreateArticleFormType } from 'utils/types'
@@ -32,6 +33,7 @@ const FileInput = ({
 }: Props) => {
   const classes = useStyles()
   const { control } = useFormContext()
+
   const {
     field: { onChange },
     fieldState: { error }
@@ -43,29 +45,38 @@ const FileInput = ({
   const [file, setFile] = useState<File | null>(null)
   const [preview, setPreview] = useState<string>('')
 
+  const fetchImage = useCallback(async () => {
+    try {
+      const response = await axios.get(`${BASE_URL}/images/${imageId}`, {
+        headers: { 'X-API-KEY': API_KEY },
+        responseType: 'blob'
+      })
+      const imageString = response.data
+      const reader = new FileReader()
+      reader.readAsDataURL(imageString)
+      reader.onload = () => {
+        const imageDataUrl = reader.result
+        if (typeof imageDataUrl === 'string') {
+          setPreview(imageDataUrl)
+        }
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }, [imageId])
+
   useEffect(() => {
     let objectUrl = ''
 
     if (imageId && !file) {
-      fetch(`${BASE_URL}/images/${imageId}`, {
-        method: 'GET',
-        headers: { 'X-API-KEY': API_KEY }
-      }).then((response) => {
-        response.blob().then(myBlob => {
-          const objectUrl = URL.createObjectURL(myBlob)
-          setPreview(objectUrl)
-        })
-      })
+      fetchImage()
     }
-
-
     if (file) {
       objectUrl = URL.createObjectURL(file)
       setPreview(objectUrl)
     }
-
     return () => URL.revokeObjectURL(objectUrl)
-  }, [file, imageId])
+  }, [fetchImage, file, imageId])
 
   const onSelectFile = (e:  React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) {

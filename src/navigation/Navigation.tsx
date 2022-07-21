@@ -131,9 +131,11 @@ const Navigation = ({ children }: Props) => {
           </Toolbar>
         </Container>
       </AppBar>
+
       <Container className={classes.content}>
         {children}
       </Container>
+
     </Box>
   )
 }
