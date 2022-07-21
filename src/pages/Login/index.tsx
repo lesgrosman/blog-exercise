@@ -8,11 +8,11 @@ import Typography from '@mui/material/Typography'
 import { makeStyles } from '@mui/styles'
 import { AxiosError } from 'axios'
 import TextInput from 'components/Form/TextInput'
-import { useAuthContext } from 'context/auth'
 import { FieldValues, FormProvider, useForm } from 'react-hook-form'
 import { Navigate } from 'react-router-dom'
+import { useAuthContext } from 'store/auth'
 import { ROUTES } from 'utils/constants'
-import { useLogin } from 'utils/hooks/useLogin'
+import { useAuth } from 'utils/hooks/useAuth'
 import { LoginForm } from 'utils/types'
 import * as yup from 'yup'
 
@@ -41,7 +41,7 @@ const schema = yup.object({
 
 const Login = () => {
   const classes = useStyles()
-  const [ login, { loading, error } ] = useLogin()
+  const { login, loading, error } = useAuth()
   const { isUser } = useAuthContext()
 
   const methods = useForm<LoginForm>({

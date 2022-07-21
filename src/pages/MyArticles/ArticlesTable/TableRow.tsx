@@ -6,12 +6,12 @@ import IconButton from '@mui/material/IconButton'
 import TableCell from '@mui/material/TableCell'
 import { makeStyles } from '@mui/styles'
 import Modal from 'components/Modal'
-import { useAuthContext } from 'context/auth'
 import { useSnackbar } from 'notistack'
 import { useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 import { deleteArticle } from 'services/mutations'
+import { useAuthContext } from 'store/auth'
 import LocalizedDate from 'utils/components/LocalizedDate'
 import { ROUTES } from 'utils/constants'
 import { COLS } from './constants'
@@ -34,14 +34,14 @@ const TableRow = ({
   row
 }: Props) => {
   const classes = useStyles()
-  const { accessToken } = useAuthContext()
+  const { token } = useAuthContext()
   const queryClient = useQueryClient()
   const { enqueueSnackbar } = useSnackbar()
   const navigate = useNavigate()
 
   const [modalIsOpen, setModalIsOpen] = useState(false)
 
-  const mutationDeleteArticle = useMutation(() => deleteArticle(row.id, accessToken), {
+  const mutationDeleteArticle = useMutation(() => deleteArticle(row.id, token?.accessToken), {
     onSuccess: () => {
       enqueueSnackbar('Article wa deleted', { variant: 'success' })
       queryClient.invalidateQueries(['articles'])
