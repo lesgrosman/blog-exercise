@@ -85,14 +85,14 @@ const ArticleCard = ({ article }: Props) => {
 
   const linkButton = (
     <Button
-      variant="contained"
+      variant="text"
       color="primary"
       size="small"
       component="a"
       href={`${ROUTES.ARTICLES}/${article.articleId}`}
       className={classes.button}
     >
-      Detail
+      Show content
     </Button>
   )
 

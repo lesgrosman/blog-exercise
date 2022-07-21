@@ -1,6 +1,4 @@
 import Box from '@mui/material/Box'
-import { Theme } from '@mui/material/styles'
-import { makeStyles } from '@mui/styles'
 import ReactMarkdown from 'react-markdown'
 import { UseQueryResult, useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
@@ -10,20 +8,7 @@ import { ArticleDetailType } from 'services/types'
 import Content from './Content'
 import SkeletonDetail from './SkeletonDetail'
 
-export const useStyles = makeStyles((theme: Theme) => ({
-  date: {
-    color: theme.palette.text.disabled
-  },
-  image: {
-    objectFit: 'contain',
-    objectPosition: 'center',
-    width: '100%',
-    height: '80%'
-  }
-}))
-
 const Detail = () => {
-  const classes = useStyles()
   const { articleId } = useParams()
 
   const id = articleId || ''

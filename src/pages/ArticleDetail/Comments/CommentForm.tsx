@@ -85,24 +85,27 @@ const CommentForm = ({
               error={!!errors.content}
               helperText={errors.content?.message}
             />
-            <TextField
-              {...register('name')}
-              type="text"
-              size="small"
-              autoComplete="off"
-              placeholder="Your name"
-              error={!!errors.name}
-              helperText={errors.name?.message}
-            />
+            <Grid item container>
+              <Grid item>
+                <TextField
+                  {...register('name')}
+                  type="text"
+                  size="small"
+                  autoComplete="off"
+                  placeholder="Your name"
+                  error={!!errors.name}
+                  helperText={errors.name?.message}
+                />
+              </Grid>
+              <Grid item>
+                <Button type="submit" disabled={isSubmitting}>
+                  Leave comment
+                </Button>
+              </Grid>
+            </Grid>
           </Box>
-
         </Grid>
       </Grid>
-      <Box display="flex" justifyContent="flex-end" alignItems="flex-end">
-        <Button type="submit" disabled={isSubmitting}>
-          Leave comment
-        </Button>
-      </Box>
 
     </form>
 

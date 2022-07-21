@@ -46,7 +46,7 @@ const List = ({
     )
   }
 
-  if (isError || !data) return <>Error :/</>
+  if (isError || !data) return null
 
   const newestRelated = sortByDate(data.items.filter(item => item.articleId !== articleId)).slice(0, 5)
 
