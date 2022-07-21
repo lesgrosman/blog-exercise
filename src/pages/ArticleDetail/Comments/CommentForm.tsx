@@ -13,10 +13,12 @@ import { AddCommentMutation } from 'services/types'
 import * as yup from 'yup'
 
 type CommentFormType = {
+  name: string
   content: string
 }
 
 const schema = yup.object({
+  name: yup.string().required('Enter your name'),
   content: yup.string().required('Cannot leave empty comment!')
 })
 
@@ -60,7 +62,7 @@ const CommentForm = ({
       mutationComment.mutate({
         articleId,
         content: data.content,
-        author: 'Les Grosman'
+        author: data.name
       })
     }
   }
@@ -72,16 +74,28 @@ const CommentForm = ({
           <Avatar src="/broken-image.jpg" />
         </Grid>
         <Grid item xs={10} sm={11}>
-          <TextField
-            {...register('content')}
-            type="text"
-            fullWidth
-            size="small"
-            autoComplete="off"
-            placeholder="Join the discussion!"
-            error={!!errors.content}
-            helperText={errors.content?.message}
-          />
+          <Box display="flex" flexDirection="column" gap={3}>
+            <TextField
+              {...register('content')}
+              type="text"
+              fullWidth
+              size="small"
+              autoComplete="off"
+              placeholder="Join the discussion!"
+              error={!!errors.content}
+              helperText={errors.content?.message}
+            />
+            <TextField
+              {...register('name')}
+              type="text"
+              size="small"
+              autoComplete="off"
+              placeholder="Your name"
+              error={!!errors.name}
+              helperText={errors.name?.message}
+            />
+          </Box>
+
         </Grid>
       </Grid>
       <Box display="flex" justifyContent="flex-end" alignItems="flex-end">

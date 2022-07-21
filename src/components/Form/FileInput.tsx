@@ -7,6 +7,7 @@ import { makeStyles } from '@mui/styles'
 import Image from 'components/Image'
 import React, { useEffect, useState } from 'react'
 import { UseFormRegister, useController, useFormContext } from 'react-hook-form'
+import { API_KEY, BASE_URL } from 'utils/constants'
 import { CreateArticleFormType } from 'utils/types'
 
 export const useStyles = makeStyles((theme: Theme) => ({
@@ -21,11 +22,13 @@ export const useStyles = makeStyles((theme: Theme) => ({
 interface Props  {
   name: keyof CreateArticleFormType,
   register: UseFormRegister<CreateArticleFormType>
+  imageId?: string
 }
 
 const FileInput = ({
   name,
-  register
+  register,
+  imageId
 }: Props) => {
   const classes = useStyles()
   const { control } = useFormContext()
@@ -41,16 +44,28 @@ const FileInput = ({
   const [preview, setPreview] = useState<string>('')
 
   useEffect(() => {
-    if (!file) {
-      setPreview('')
-      return
+    let objectUrl = ''
+
+    if (imageId && !file) {
+      fetch(`${BASE_URL}/images/${imageId}`, {
+        method: 'GET',
+        headers: { 'X-API-KEY': API_KEY }
+      }).then((response) => {
+        response.blob().then(myBlob => {
+          const objectUrl = URL.createObjectURL(myBlob)
+          setPreview(objectUrl)
+        })
+      })
     }
 
-    const objectUrl = URL.createObjectURL(file)
-    setPreview(objectUrl)
+
+    if (file) {
+      objectUrl = URL.createObjectURL(file)
+      setPreview(objectUrl)
+    }
 
     return () => URL.revokeObjectURL(objectUrl)
-  }, [file])
+  }, [file, imageId])
 
   const onSelectFile = (e:  React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) {

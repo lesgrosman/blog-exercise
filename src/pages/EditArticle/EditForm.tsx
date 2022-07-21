@@ -15,17 +15,17 @@ import { EditArticleFormType } from 'utils/types'
 import { editArticleSchema } from 'utils/validation'
 
 interface Props {
-  initValues: ArticleDetailType
+  article: ArticleDetailType
 }
 
-const Form = ({ initValues }: Props) => {
+const Form = ({ article }: Props) => {
   const { accessToken } = useAuthContext()
   const queryClient = useQueryClient()
   const navigate = useNavigate()
   const { enqueueSnackbar } = useSnackbar()
 
   const mutationEditArticle = useMutation((data: EditArticleMutation) =>
-    editArticle(initValues.articleId, data, accessToken),
+    editArticle(article.articleId, data, accessToken),
   {
     onSuccess: () => {
       enqueueSnackbar('Article wa edited!', { variant: 'success' })
@@ -53,9 +53,10 @@ const Form = ({ initValues }: Props) => {
 
   const methods = useForm<EditArticleFormType>({
     defaultValues: {
-      title: initValues.title || '',
-      perex: initValues.perex || '',
-      content: initValues.content || ''
+      title: article.title || '',
+      perex: article.perex || '',
+      content: article.content || '',
+      image: null
     },
     resolver: yupResolver(editArticleSchema),
     mode: 'onChange'
@@ -104,6 +105,7 @@ const Form = ({ initValues }: Props) => {
           <FileInput
             name="image"
             register={methods.register}
+            imageId={article.imageId}
           />
           <Controller 
             name="content"
