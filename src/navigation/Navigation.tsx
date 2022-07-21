@@ -10,9 +10,10 @@ import MenuItem from '@mui/material/MenuItem'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import { makeStyles } from '@mui/styles'
-import { useAuthContext } from 'context/auth'
 import React from 'react'
+import { useAuthContext } from 'store/auth'
 import { ROUTES } from 'utils/constants'
+import { useAuth } from 'utils/hooks/useAuth'
 
 interface Props {
   children?: React.ReactNode
@@ -50,7 +51,8 @@ export const useStyles = makeStyles((theme: Theme) => ({
 
 
 const Navigation = ({ children }: Props) => {
-  const { isUser, setIsUser } = useAuthContext()
+  const { isUser } = useAuthContext()
+  const { logout } = useAuth()
   const classes = useStyles()
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
@@ -61,8 +63,7 @@ const Navigation = ({ children }: Props) => {
 
   const handleLogout = () => {
     setAnchorEl(null)
-    setIsUser(false)
-    localStorage.setItem('accessToken', '')
+    logout()
   }
 
   return (

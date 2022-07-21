@@ -3,13 +3,13 @@ import Box from '@mui/material/Box'
 import FileInput from 'components/Form/FileInput'
 import TextInput from 'components/Form/TextInput'
 import RichTextEditor from 'components/RichTextEditor'
-import { useAuthContext } from 'context/auth'
 import { useSnackbar } from 'notistack'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { useMutation, useQueryClient } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 import { editArticle, uploadImage } from 'services/mutations'
 import { ArticleDetailType, EditArticleMutation } from 'services/types'
+import { useAuthContext } from 'store/auth'
 import { ROUTES } from 'utils/constants'
 import { EditArticleFormType } from 'utils/types'
 import { editArticleSchema } from 'utils/validation'
@@ -19,13 +19,13 @@ interface Props {
 }
 
 const Form = ({ article }: Props) => {
-  const { accessToken } = useAuthContext()
+  const { token } = useAuthContext()
   const queryClient = useQueryClient()
   const navigate = useNavigate()
   const { enqueueSnackbar } = useSnackbar()
 
   const mutationEditArticle = useMutation((data: EditArticleMutation) =>
-    editArticle(article.articleId, data, accessToken),
+    editArticle(article.articleId, data, token?.accessToken),
   {
     onSuccess: () => {
       enqueueSnackbar('Article wa edited!', { variant: 'success' })
@@ -37,7 +37,7 @@ const Form = ({ article }: Props) => {
     }
   })
 
-  const mutationImage = useMutation((image: FormData) => uploadImage(image, accessToken), {
+  const mutationImage = useMutation((image: FormData) => uploadImage(image, token?.accessToken), {
     onSuccess: (data) => {
       mutationEditArticle.mutate({
         title: methods.getValues('title'),

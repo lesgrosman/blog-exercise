@@ -1,9 +1,8 @@
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material'
-import { AuthProvider } from 'context/auth'
-import { PaginationProvider } from 'context/pagination'
 import MainNavigation from 'navigation/MainNavigator'
 import { SnackbarProvider } from 'notistack'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import { AuthProvider } from 'store/auth'
 import themeOptions from 'utils/styles/theme'
 
 
@@ -24,11 +23,9 @@ function App() {
       >
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
-            <PaginationProvider>
 
-              <MainNavigation />
+            <MainNavigation />
 
-            </PaginationProvider>
           </AuthProvider>
         </QueryClientProvider>
       </SnackbarProvider>

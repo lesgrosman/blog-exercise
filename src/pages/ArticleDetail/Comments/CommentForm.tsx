@@ -4,12 +4,12 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
-import { useAuthContext } from 'context/auth'
 import { useSnackbar } from 'notistack'
 import { useForm } from 'react-hook-form'
 import { useMutation, useQueryClient } from 'react-query'
 import { addComment } from 'services/mutations'
 import { AddCommentMutation } from 'services/types'
+import { useAuthContext } from 'store/auth'
 import * as yup from 'yup'
 
 type CommentFormType = {
@@ -29,11 +29,11 @@ interface Props {
 const CommentForm = ({
   articleId
 }: Props) => {
-  const { accessToken, isUser } = useAuthContext()
+  const { token, isUser } = useAuthContext()
   const queryClient = useQueryClient()
   const { enqueueSnackbar } = useSnackbar()
 
-  const mutationComment = useMutation((data: AddCommentMutation) => addComment(data, accessToken), {
+  const mutationComment = useMutation((data: AddCommentMutation) => addComment(data, token?.accessToken), {
     onSuccess: () => {
       reset(),
       enqueueSnackbar('Comment was added', { variant: 'success' })
